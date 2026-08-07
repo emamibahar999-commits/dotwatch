@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سبد خرید | دات واچ</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div style="background:var(--secondary);color:white;padding:15px 0;">
+        <div class="container" style="display:flex;justify-content:space-between;align-items:center;">
+            <a href="../index.html" class="logo" style="display:flex;align-items:center;gap:10px;">
+                <div class="logo-icon" style="width:40px;height:40px;font-size:18px;"><i class="fas fa-clock"></i></div>
+                <div class="logo-text" style="font-size:20px;color:white;">دات<span style="color:var(--primary-light);">واچ</span></div>
+            </a>
+        </div>
+    </div>
+    <div class="cart-page container">
+        <div class="section-header" style="margin-bottom:30px;"><h1 class="section-title">سبد خرید</h1></div>
+        <div class="cart-layout">
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <h2>سبد خرید شما خالی است</h2>
+                    <p>محصولات مورد علاقه خود را به سبد خرید اضافه کنید</p>
+                    <a href="../index.html" class="btn btn-primary">ادامه خرید</a>
+                </div>
+            </div>
+            <div class="cart-summary" id="cart-summary" style="display:none;"></div>
+        </div>
+    </div>
+    <script src="../js/main.js"></script>
+</body>
+</html>

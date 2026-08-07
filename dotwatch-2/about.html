@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>درباره ما | دات واچ - مرجع تخصصی ساعت و زیورآلات</title>
+    <meta name="description" content="دات واچ از سال 1391 فعالیت خود را آغاز کرده و امروز به یکی از بزرگترین مراجع تخصصی خرید ساعت مچی، زیورآلات و اکسسوری اصل تبدیل شده است.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="top-bar">
+        <div class="container">
+            <div class="top-bar-links">
+                <a href="about.html"><i class="fas fa-info-circle"></i> درباره ما</a>
+                <a href="contact.html"><i class="fas fa-phone"></i> تماس با ما</a>
+                <a href="rules.html"><i class="fas fa-file-alt"></i> قوانین و مقررات</a>
+            </div>
+            <div class="top-bar-links">
+                <a href="tel:02191008090"><i class="fas fa-phone-alt"></i> 021-91008090</a>
+                <span><i class="fas fa-map-marker-alt"></i> تهران</span>
+            </div>
+        </div>
+    </div>
+    <header class="header-main">
+        <div class="container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon"><i class="fas fa-clock"></i></div>
+                دات <span>واچ</span>
+            </a>
+            <div class="search-box">
+                <input type="text" placeholder="جستجوی ساعت، برند، مدل...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+            <div class="header-actions">
+                <a href="wishlist.html" class="header-action">
+                    <i class="far fa-heart"></i>
+                    <span class="badge" data-type="wishlist" style="display:none">0</span>
+                    <span>علاقه‌مندی</span>
+                </a>
+                <a href="cart.html" class="header-action">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="badge" data-type="cart" style="display:none">0</span>
+                    <span>سبد خرید</span>
+                </a>
+                <a href="compare.html" class="header-action">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>مقایسه</span>
+                </a>
+                <a href="#" class="header-action" onclick="AppState.isLoggedIn ? logout() : alert('لطفاً وارد شوید')">
+                    <i class="far fa-user"></i>
+                    <span>حساب کاربری</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> صفحه اصلی</a></li>
+                <li><a href="watch/index.html">ساعت مچی <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="jewelry/index.html">زیورآلات <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="accessory/index.html">اکسسوری <i class="fas fa-chevron-down"></i></a></li>
+                <li><a href="mag/index.html"><i class="fas fa-newspaper"></i> مجله</a></li>
+                <li><a href="watch/index.html?filter=sale"><i class="fas fa-percent"></i> تخفیف‌ها</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="page-banner">
+        <div class="container">
+            <h1>درباره دات واچ</h1>
+            <p>مرجع تخصصی نقد و بررسی و خرید اینترنتی ساعت مچی، زیورآلات و اکسسوری اصل</p>
+            <div class="breadcrumb">
+                <a href="index.html">صفحه اصلی</a>
+                <span>/</span>
+                <span>درباره ما</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="about-section">
+        <div class="container about-content">
+            <div class="about-block">
+                <h2><i class="fas fa-history"></i> تاریخچه دات واچ</h2>
+                <p>فروشگاه اینترنتی دات واچ در سال 1391 با هدف ارائه محصولات اصل و با کیفیت در حوزه ساعت مچی، زیورآلات و اکسسوری تأسیس شد. از همان ابتدا، تمرکز اصلی ما بر روی اصالت کالا، قیمت مناسب و خدمات پس از فروش بوده است.</p>
+                <p>در سال 1392 وب‌سایت دات واچ راه‌اندازی شد و ما توانستیم خدمات خود را به سراسر کشور گسترش دهیم. امروز دات واچ با بیش از یک دهه تجربه، یکی از معتبرترین مراجع خرید آنلاین ساعت و زیورآلات در ایران است.</p>
+            </div>
+
+            <div class="about-block">
+                <h2><i class="fas fa-bullseye"></i> مأموریت و چشم‌انداز</h2>
+                <p><strong>مأموریت:</strong> ارائه بهترین محصولات اصل با مناسب‌ترین قیمت و بالاترین کیفیت خدمات به مشتریان عزیز.</p>
+                <p><strong>چشم‌انداز:</strong> تبدیل شدن به بزرگترین و معتبرترین مرجع تخصصی خرید ساعت، زیورآلات و اکسسوری در خاورمیانه.</p>
+            </div>
+
+            <div class="about-block">
+                <h2><i class="fas fa-gem"></i> ظرفیت‌ها و مزایا</h2>
+                <p>دات واچ با بهره‌مندی از تیم تخصصی، سرور اختصاصی، آتلیه عکاسی حرفه‌ای و مجوزهای رسمی، آماده ارائه بهترین خدمات به شماست:</p>
+                <ul style="padding-right:20px; margin-top:15px;">
+                    <li style="margin-bottom:10px; color:#6b7280; line-height:1.8;">مجوزهای رسمی از اتحادیه سازندگان و فروشندگان ساعت تهران</li>
+                    <li style="margin-bottom:10px; color:#6b7280; line-height:1.8;">سرور اختصاصی با آپتایم 99.9%</li>
+                    <li style="margin-bottom:10px; color:#6b7280; line-height:1.8;">آتلیه عکاسی حرفه‌ای با تجهیزات پیشرفته</li>
+                    <li style="margin-bottom:10px; color:#6b7280; line-height:1.8;">تیم تخصصی پشتیبانی 24 ساعته</li>
+                    <li style="margin-bottom:10px; color:#6b7280; line-height:1.8;">گارانتی معتبر شرکتی برای تمام محصولات</li>
+                </ul>
+            </div>
+
+            <div class="about-block">
+                <h2><i class="fas fa-heart"></i> ارزش‌های سازمانی</h2>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h4>اصالت</h4>
+                        <p>تضمین 100% اصالت کالا</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <h4>صداقت</h4>
+                        <p>شفافیت در قیمت و کیفیت</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-users"></i>
+                        <h4>مشتری‌مداری</h4>
+                        <p>رضایت شما اولویت ماست</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-lightbulb"></i>
+                        <h4>نوآوری</h4>
+                        <p>به‌روز بودن در تکنولوژی</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-medal"></i>
+                        <h4>کیفیت</h4>
+                        <p>انتخاب بهترین برندها</p>
+                    </div>
+                    <div class="value-card">
+                        <i class="fas fa-clock"></i>
+                        <h4>سرعت</h4>
+                        <p>ارسال سریع و به‌موقع</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-block">
+                <h2><i class="fas fa-chart-line"></i> آمار و ارقام</h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="num">+۱۰</span>
+                        <span class="label">سال تجربه</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="num">+۵۰۰۰</span>
+                        <span class="label">محصول</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="num">+۵۰K</span>
+                        <span class="label">مشتری راضی</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="num">+۲۰</span>
+                        <span class="label">برند معتبر</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="logo">
+                        <div class="logo-icon"><i class="fas fa-clock"></i></div>
+                        دات <span>واچ</span>
+                    </a>
+                    <p>مرجع تخصصی نقد و بررسی و خرید اینترنتی ساعت مچی، زیورآلات و اکسسوری اصل با گارانتی معتبر شرکتی.</p>
+                    <div class="footer-social">
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h4>دسترسی سریع</h4>
+                    <ul>
+                        <li><a href="index.html">صفحه اصلی</a></li>
+                        <li><a href="watch/index.html">ساعت مچی</a></li>
+                        <li><a href="jewelry/index.html">زیورآلات</a></li>
+                        <li><a href="accessory/index.html">اکسسوری</a></li>
+                        <li><a href="mag/index.html">مجله</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>خدمات مشتریان</h4>
+                    <ul>
+                        <li><a href="rules.html">نحوه ثبت سفارش</a></li>
+                        <li><a href="rules.html">شرایط بازگشت کالا</a></li>
+                        <li><a href="rules.html">شرایط گارانتی</a></li>
+                        <li><a href="contact.html">پشتیبانی</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>درباره دات واچ</h4>
+                    <ul>
+                        <li><a href="about.html">درباره ما</a></li>
+                        <li><a href="contact.html">تماس با ما</a></li>
+                        <li><a href="rules.html">قوانین و مقررات</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column footer-contact">
+                    <h4>اطلاعات تماس</h4>
+                    <p><i class="fas fa-map-marker-alt"></i> تهران، خیابان جمهوری</p>
+                    <p><i class="fas fa-phone-alt"></i> 021-91008090</p>
+                    <p><i class="fas fa-envelope"></i> info@dotwatch.ir</p>
+                    <p><i class="fas fa-clock"></i> شنبه تا پنجشنبه 9 صبح تا 9 شب</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>تمامی حقوق محفوظ است © 1403 دات واچ</p>
+                <div class="footer-trust">
+                    <span style="padding:8px 15px;background:rgba(255,255,255,0.1);border-radius:8px;font-size:12px;">اینماد دو ستاره</span>
+                    <span style="padding:8px 15px;background:rgba(255,255,255,0.1);border-radius:8px;font-size:12px;">ساماندهی</span>
+                    <span style="padding:8px 15px;background:rgba(255,255,255,0.1);border-radius:8px;font-size:12px;">اتحادیه کسب‌وکارهای مجازی</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="js/main.js"></script>
+</body>
+</html>
