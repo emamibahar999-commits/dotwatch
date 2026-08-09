@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حساب کاربری | دات واچ</title>
+  <meta name="description" content="مرجع تخصصی نقد و بررسی و خرید اینترنتی ساعت مچی، زیور و اکسسوری اصل">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+<!-- Notification Bar -->
+<div id="notification-bar" class="notification-bar"><span></span></div>
+
+<!-- Top Bar -->
+<div class="top-bar">
+  <div class="container">🎁 پیشنهاد ویژه: ارسال رایگان برای خریدهای بالای ۷۵۰ هزار تومان | <a href="../discounts/index.html">مشاهده تخفیفات</a></div>
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="container">
+    <div class="header-main">
+      <a href="../index.html" class="logo">
+        <div class="logo-icon">◷</div>
+        <span>دات واچ</span>
+      </a>
+
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="جستجوی ساعت، برند، مدل...">
+        <button onclick="const v=document.getElementById('search-input').value;if(v)window.location.href='../watch/index.html?q='+encodeURIComponent(v)">🔍</button>
+      </div>
+
+      <div class="header-actions">
+        <a href="../login/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>حساب کاربری</span>
+        </a>
+        <a href="../compare/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h3v3h-3zM8 3h3v3H8zM5 8h14v12H5z"/></svg>
+          <span>مقایسه</span>
+        </a>
+        <a href="../cart/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>سبد خرید</span>
+        </a>
+        <a href="../wishlist/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span>علاقه‌مندی</span>
+        </a>
+      </div>
+
+      <button class="mobile-toggle" onclick="document.querySelector('.nav-menu').classList.toggle('active')">☰</button>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="container">
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="../index.html" class="nav-link ">صفحه اصلی</a></li>
+        <li class="nav-item">
+          <a href="../watch/index.html" class="nav-link ">ساعت مچی ▾</a>
+          <div class="dropdown">
+            <a href="../watch/mens/index.html">⌚ ساعت مردانه</a>
+            <a href="../watch/ladies/index.html">⌚ ساعت زنانه</a>
+            <a href="../watch/couple/index.html">💑 ساعت ست</a>
+            <hr style="margin:8px 0;border:none;border-top:1px solid #e0e0e0">
+            <a href="../watch/classic/index.html">🎩 کلاسیک</a>
+            <a href="../watch/casual/index.html">👟 کژوال</a>
+            <a href="../watch/sport/index.html">🏃 اسپرت</a>
+            <a href="../watch/luxury/index.html">💎 لاکچری</a>
+            <a href="../watch/minimal/index.html">○ مینیمال</a>
+            <a href="../watch/smart/index.html">📱 هوشمند</a>
+            <hr style="margin:8px 0;border:none;border-top:1px solid #e0e0e0">
+            <a href="../watch/analog/index.html">🕐 آنالوگ</a>
+            <a href="../watch/digital/index.html">🔢 دیجیتال</a>
+            <a href="../watch/automatic/index.html">⚙️ اتوماتیک</a>
+            <a href="../watch/quartz/index.html">💎 کوارتز</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="../accessory/index.html" class="nav-link ">اکسسوری ▾</a>
+          <div class="dropdown">
+            <a href="../accessory/cufflinks/index.html">🔘 دکمه سردست</a>
+            <a href="../accessory/card-holder/index.html">💳 جاکارتی</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="../brands/index.html" class="nav-link ">برندها</a></li>
+        <li class="nav-item"><a href="../discounts/index.html" class="nav-link ">🔥 تخفیفات</a></li>
+        <li class="nav-item"><a href="../best-sellers/index.html" class="nav-link ">⭐ پرفروش‌ترین‌ها</a></li>
+        <li class="nav-item"><a href="../daily-deals/index.html" class="nav-link ">⚡ پیشنهاد امروز</a></li>
+        <li class="nav-item"><a href="../magazine/index.html" class="nav-link ">📰 مجله وومگ</a></li>
+        <li class="nav-item">
+          <a href="../about/index.html" class="nav-link ">درباره ما ▾</a>
+          <div class="dropdown">
+            <a href="../about/index.html">🏢 درباره ما</a>
+            <a href="../rules/index.html">📋 قوانین و مقررات</a>
+            <a href="../faq/index.html">❓ سوالات متداول</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="../contact/index.html" class="nav-link ">📞 تماس با ما</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<div class="page-banner"><div class="container"><h1>حساب کاربری</h1><div class="breadcrumb"><a href="../index.html">صفحه اصلی</a><span>/</span><span>حساب کاربری</span></div></div></div>
+<div class="container">
+  <div class="profile-layout">
+    <aside class="profile-sidebar">
+      <div style="text-align:center;margin-bottom:20px">
+        <div style="width:80px;height:80px;background:var(--primary);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:32px;margin:0 auto 10px">👤</div>
+        <h4>کاربر عزیز</h4>
+        <p style="font-size:13px;color:var(--text-light)">۰۹۱۲۳۴۵۶۷۸۹</p>
+      </div>
+      <ul class="profile-menu">
+        <li><a href="#" class="active" onclick="showProfileTab('info');return false">👤 اطلاعات شخصی</a></li>
+        <li><a href="#" onclick="showProfileTab('addresses');return false">📍 آدرس‌های من</a></li>
+        <li><a href="#" onclick="showProfileTab('orders');return false">📦 تاریخچه سفارشات</a></li>
+        <li><a href="../wishlist/index.html">♥ علاقه‌مندی‌ها</a></li>
+        <li><a href="../compare/index.html">⇄ لیست مقایسه</a></li>
+        <li><a href="#" onclick="showProfileTab('notifications');return false">🔔 اطلاع‌رسانی‌ها</a></li>
+        <li><a href="../login/index.html" style="color:var(--primary)">🚪 خروج از حساب</a></li>
+      </ul>
+    </aside>
+    <div>
+      <!-- Tab: Info -->
+      <div id="tab-info" class="profile-tab" style="background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <h3 style="margin-bottom:20px">اطلاعات شخصی</h3>
+        <div class="form-row">
+          <div class="form-group"><label>نام</label><input type="text" value="کاربر"></div>
+          <div class="form-group"><label>نام خانوادگی</label><input type="text" value="عزیز"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>شماره تماس</label><input type="tel" value="۰۹۱۲۳۴۵۶۷۸۹"></div>
+          <div class="form-group"><label>ایمیل</label><input type="email" value="user@example.com"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>کد ملی</label><input type="text" value="۰۰۱۲۳۴۵۶۷۸"></div>
+          <div class="form-group"><label>تاریخ تولد</label><input type="text" value="۱۳۷۰/۰۱/۰۱"></div>
+        </div>
+        <button class="btn-primary" onclick="alert('اطلاعات ذخیره شد')">💾 ذخیره تغییرات</button>
+      </div>
+
+      <!-- Tab: Addresses -->
+      <div id="tab-addresses" class="profile-tab" style="display:none;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <h3>آدرس‌های من</h3>
+          <button class="btn-outline" onclick="alert('فرم افزودن آدرس')">+ افزودن آدرس</button>
+        </div>
+        <div style="border:2px solid var(--primary);border-radius:12px;padding:20px;margin-bottom:15px;background:#fff8f8">
+          <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+            <strong>🏠 خانه</strong>
+            
+          </div>
+          <p style="color:var(--text-light);font-size:14px">تهران، خیابان جمهوری، پلاک ۱۲۳، واحد ۴<br>کد پستی: ۱۳۳۴۵۶۷۸۹۰ | گیرنده: کاربر عزیز</p>
+          <div style="margin-top:10px">
+            <button style="background:none;border:none;color:var(--primary);cursor:pointer;font-family:inherit;margin-left:15px">✏️ ویرایش</button>
+            <button style="background:none;border:none;color:#e31e24;cursor:pointer;font-family:inherit">🗑️ حذف</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Orders -->
+      <div id="tab-orders" class="profile-tab" style="display:none;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <h3 style="margin-bottom:20px">📦 تاریخچه سفارشات</h3>
+        <div style="overflow-x:auto">
+          <table class="specs-table" style="min-width:600px">
+            <tr style="background:var(--bg-light)"><td>شماره سفارش</td><td>تاریخ</td><td>مبلغ</td><td>وضعیت</td><td>عملیات</td></tr>
+            <tr><td>#۱۰۲۶</td><td>۱۴۰۵/۰۵/۲۰</td><td>۱۲,۵۰۰,۰۰۰ تومان</td><td style="color:var(--success)">✅ تحویل داده شده</td><td><a href="#" style="color:var(--primary)">مشاهده</a></td></tr>
+            <tr><td>#۱۰۲۵</td><td>۱۴۰۵/۰۵/۱۵</td><td>۸,۹۰۰,۰۰۰ تومان</td><td style="color:var(--success)">✅ تحویل داده شده</td><td><a href="#" style="color:var(--primary)">مشاهده</a></td></tr>
+            <tr><td>#۱۰۲۴</td><td>۱۴۰۵/۰۵/۱۰</td><td>۴,۵۰۰,۰۰۰ تومان</td><td style="color:orange">🚚 در حال ارسال</td><td><a href="#" style="color:var(--primary)">مشاهده</a></td></tr>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab: Notifications -->
+      <div id="tab-notifications" class="profile-tab" style="display:none;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <h3 style="margin-bottom:20px">🔔 اطلاع‌رسانی‌ها</h3>
+        <div style="padding:15px;background:var(--bg-light);border-radius:8px;margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong>سفارش شما ارسال شد</strong><span style="font-size:12px;color:var(--text-light)">۲ ساعت پیش</span></div>
+          <p style="font-size:13px;color:var(--text-light);margin-top:5px">سفارش #۱۰۲۴ از طریق پست پیشتاز ارسال شد.</p>
+        </div>
+        <div style="padding:15px;background:var(--bg-light);border-radius:8px;margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between"><strong>تخفیف ویژه جی‌شاک</strong><span style="font-size:12px;color:var(--text-light)">دیروز</span></div>
+          <p style="font-size:13px;color:var(--text-light);margin-top:5px">۲۰٪ تخفیف ویژه ساعت‌های جی‌شاک تا پایان هفته</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function showProfileTab(tab) {
+  document.querySelectorAll('.profile-tab').forEach(t => t.style.display = 'none');
+  document.getElementById('tab-' + tab).style.display = 'block';
+  document.querySelectorAll('.profile-menu a').forEach(a => a.classList.remove('active'));
+  event.target.classList.add('active');
+}
+</script>
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>دات واچ</h4>
+        <p style="font-size:14px;line-height:1.8;margin-bottom:15px">مرجع تخصصی نقد و بررسی و خرید اینترنتی ساعت مچی، زیور و اکسسوری اصل با گارانتی معتبر شرکتی</p>
+        <div class="social-links"><a href="#">📷</a><a href="#">🐦</a><a href="#">💬</a><a href="#">▶️</a></div>
+      </div>
+      <div class="footer-col">
+        <h4>دسترسی سریع</h4>
+        <ul>
+          <li><a href="../watch/mens/index.html">ساعت مردانه</a></li>
+          <li><a href="../watch/ladies/index.html">ساعت زنانه</a></li>
+          <li><a href="../watch/couple/index.html">ساعت ست</a></li>
+          <li><a href="../accessory/index.html">اکسسوری</a></li>
+          <li><a href="../magazine/index.html">مجله تخصصی</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>خدمات مشتریان</h4>
+        <ul>
+          <li><a href="../rules/index.html">قوانین و مقررات</a></li>
+          <li><a href="../rules/index.html#return">شرایط بازگشت کالا</a></li>
+          <li><a href="../rules/index.html#warranty">شرایط گارانتی</a></li>
+          <li><a href="../rules/index.html#shipping">نحوه ارسال</a></li>
+          <li><a href="../faq/index.html">سوالات متداول</a></li>
+        </ul>
+      </div>
+      <div class="footer-col footer-contact">
+        <h4>تماس با ما</h4>
+        <p>📍 تهران، خیابان جمهوری، پلاک ۱۳۳۴</p>
+        <p>📞 ۰۲۱-۹۱۰۰۸۰۹۰</p>
+        <p>✉️ info@dotwatch.ir</p>
+        <p>🕐 شنبه تا پنجشنبه: ۹ صبح تا ۹ شب</p>
+      </div>
+    </div>
+    <div class="footer-bottom"><p>تمامی حقوق محفوظ است © ۱۴۰۵ | فروشگاه اینترنتی دات واچ</p></div>
+  </div>
+</footer>
+<script src="../js/data.js"></script>
+<script src="../js/app.js"></script>
+
+</body>
+</html>
