@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>حساب کاربری | دات واچ</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .modal-overlay { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; justify-content:center; align-items:center; }
+    .modal-overlay.active { display:flex; }
+    .modal-box { background:#fff; padding:30px; border-radius:16px; width:90%; max-width:500px; box-shadow:0 20px 60px rgba(0,0,0,0.2); }
+    .modal-box h3 { margin-bottom:20px; }
+    .modal-actions { display:flex; gap:10px; margin-top:20px; justify-content:flex-end; }
+    .btn-secondary { background:var(--bg-light); color:var(--text); border:1px solid #ddd; padding:10px 20px; border-radius:8px; cursor:pointer; font-family:inherit; }
+    .empty-state { text-align:center; padding:40px; color:var(--text-light); }
+    .empty-state svg { width:64px; height:64px; margin-bottom:15px; opacity:0.4; }
+    .badge { display:inline-block; padding:4px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+    .badge-success { background:#e8f5e9; color:#2e7d32; }
+    .badge-warning { background:#fff3e0; color:#ef6c00; }
+    .badge-info { background:#e3f2fd; color:#1565c0; }
+    .notification-item.unread { border-right:3px solid var(--primary); }
+    .address-card { border:2px solid var(--primary); border-radius:12px; padding:20px; margin-bottom:15px; background:#fff8f8; transition:all 0.2s; }
+    .address-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.08); }
+    .order-row:hover { background:var(--bg-light); }
+    .profile-avatar { width:80px; height:80px; background:var(--primary); color:#fff; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:32px; margin:0 auto 10px; position:relative; overflow:hidden; }
+    .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-100px); background:#333; color:#fff; padding:12px 24px; border-radius:8px; font-size:14px; z-index:99999; transition:transform 0.3s; opacity:0; }
+    .toast.show { transform:translateX(-50%) translateY(0); opacity:1; }
+    .profile-sidebar .profile-menu a.active { background:var(--primary); color:#fff; }
+  </style>
+  
+
+  
+  <!-- MEGA-STYLE -->
+<style>
+/* === MEGA MENU 3-COLUMN === */
+.nav-item { position: relative; }
+.dropdown.dropdown-mega {
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 0 !important;
+    min-width: 640px !important;
+    max-width: 95vw !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    border-radius: 12px !important;
+    background: #fff !important;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
+}
+.dropdown.dropdown-mega .mega-col {
+    padding: 18px 14px !important;
+    border-left: 1px solid #e0e0e0 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 3px !important;
+}
+.dropdown.dropdown-mega .mega-col:last-child { border-left: none !important; }
+.dropdown.dropdown-mega .mega-col-title {
+    display: block !important;
+    font-size: 13px !important;
+    font-weight: 800 !important;
+    color: #e31e24 !important;
+    margin-bottom: 10px !important;
+    padding: 0 8px 8px !important;
+    border-bottom: 2px solid #e31e24 !important;
+}
+.dropdown.dropdown-mega a {
+    display: block !important;
+    padding: 8px 10px !important;
+    font-size: 13px !important;
+    border-radius: 6px !important;
+    color: #333 !important;
+    text-decoration: none !important;
+}
+.dropdown.dropdown-mega a:hover {
+    background: #f8f9fa !important;
+    color: #e31e24 !important;
+    padding-right: 15px !important;
+}
+html[dir="rtl"] .dropdown.dropdown-mega .mega-col {
+    border-left: none !important;
+    border-right: 1px solid #e0e0e0 !important;
+}
+html[dir="rtl"] .dropdown.dropdown-mega .mega-col:last-child {
+    border-right: none !important;
+}
+@media (max-width: 768px) {
+    .dropdown.dropdown-mega {
+        grid-template-columns: 1fr !important;
+        min-width: 240px !important;
+    }
+    .dropdown.dropdown-mega .mega-col {
+        border: none !important;
+        border-bottom: 1px solid #e0e0e0 !important;
+    }
+    .dropdown.dropdown-mega .mega-col:last-child {
+        border-bottom: none !important;
+    }
+}
+</style>
+  <!-- /MEGA-STYLE -->
+<style id="mobile-fix">
+/* ===== MOBILE FIXES (inline - highest priority) ===== */
+@media (max-width: 768px) {
+  /* ۱. مخفی کردن جستجوی هدر */
+  .header .header-main .search-box,
+  .header-main .search-box,
+  header .search-box,
+  .search-box {
+    display: none !important;
+  }
+
+  /* ۲. جستجو در منوی همبرگری */
+  .nav-menu .mobile-search {
+    display: block !important;
+    padding: 12px 16px;
+    border-bottom: 2px solid #f0f0f0;
+  }
+  .nav-menu .mobile-search input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+    font-size: 14px;
+  }
+
+  /* ۳. دکمه فیلتر */
+  .filter-toggle-btn {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 12px 20px;
+    background: #e31e24;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    margin: 10px 0 15px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+  }
+
+  /* ۴. فیلترها پیش‌فرض بسته */
+  .filters-sidebar,
+  .filter-sidebar,
+  .sidebar-filters,
+  .product-filters,
+  .filter-section,
+  .filter-panel,
+  aside.filters,
+  aside[class*="filter"],
+  div[class*="filter"][class*="side"],
+  div[class*="filter"][class*="bar"] {
+    display: none !important;
+  }
+  .filters-sidebar.filter-active,
+  .filter-sidebar.filter-active,
+  .sidebar-filters.filter-active,
+  .product-filters.filter-active,
+  .filter-section.filter-active,
+  .filter-panel.filter-active,
+  aside.filters.filter-active,
+  aside[class*="filter"].filter-active,
+  div[class*="filter"][class*="side"].filter-active,
+  div[class*="filter"][class*="bar"].filter-active {
+    display: block !important;
+  }
+
+  /* ۵. منوی همبرگری */
+  .nav .nav-menu,
+  nav .nav-menu,
+  .nav-menu {
+    display: none !important;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 0;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    z-index: 9999;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .nav .nav-menu.active,
+  nav .nav-menu.active,
+  .nav-menu.active {
+    display: flex !important;
+  }
+
+  /* ۶. زیرمنو آکاردئونی */
+  .nav-item {
+    width: 100%;
+    border-bottom: 1px solid #f0f0f0;
+  }
+  .nav-item > .nav-link {
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-item > .nav-link::after {
+    content: "▼";
+    font-size: 10px;
+    transition: transform .2s;
+  }
+  .nav-item.active > .nav-link::after {
+    transform: rotate(180deg);
+  }
+  .nav-item > .nav-link:only-child::after {
+    content: none;
+  }
+  .nav-item .dropdown,
+  .nav-item > .dropdown {
+    display: none !important;
+    position: static !important;
+    box-shadow: none !important;
+    min-width: auto !important;
+    padding: 0 16px 10px 0 !important;
+    border: none !important;
+    background: #fafafa !important;
+    grid-template-columns: 1fr !important;
+  }
+  .nav-item.active .dropdown,
+  .nav-item.active > .dropdown {
+    display: block !important;
+  }
+  .dropdown a {
+    padding: 10px 14px !important;
+    border-bottom: 1px solid #eee;
+  }
+  .dropdown a:last-child {
+    border-bottom: none;
+  }
+  .dropdown hr {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .filter-toggle-btn,
+  .mobile-search {
+    display: none !important;
+  }
+}
+</style>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<div class="top-bar"><div class="container">🎁 پیشنهاد ویژه: ارسال رایگان برای خریدهای بالای ۷۵۰ هزار تومان | <a href="../discounts/index.html">مشاهده تخفیفات</a></div></div>
+
+<!-- HEADER-FIXED -->
+<header class="header">
+  <div class="container">
+    <div class="header-main">
+      <a href="../../index.html" class="logo">
+        <div class="logo-icon">◷</div>
+        <span>دات واچ</span>
+      </a>
+
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="جستجوی ساعت، برند، مدل...">
+        <button onclick="const v=document.getElementById('search-input').value;if(v)window.location.href='../../watch/index.html?q=+encodeURIComponent(v)">🔍</button>
+      </div>
+
+      <div class="header-actions">
+        <div id="user-account-container"></div>
+
+        <a href="../../cart/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span>سبد خرید</span>
+        </a>
+        <a href="../../compare/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h3v3h-3zM8 3h3v3H8zM5 8h14v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8zM12 12v4"/></svg>
+          <span>مقایسه</span>
+        </a>
+        <a href="../../wishlist/index.html" class="action-btn">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span>علاقه‌مندی‌ها</span>
+        </a>
+      </div>
+
+      <button class="mobile-toggle" onclick="document.querySelector('.nav-menu').classList.toggle('active')">☰</button>
+    </div>
+  </div>
+
+  <nav class="nav">
+    <div class="container">
+      <ul class="nav-menu">
+        <li class="mobile-search">
+          <input type="text" placeholder="جستجوی ساعت، برند، مدل..." onkeydown="if(event.key===\'Enter\'){var v=this.value;if(v)window.location.href=\'./watch/index.html?q=\'+encodeURIComponent(v)}">
+        </li>
+        <li class="nav-item"><a href="../../index.html" class="nav-link active">صفحه اصلی</a></li>
+        <li class="nav-item">
+          <a href="../../watch/index.html" class="nav-link ">ساعت مچی ▾</a>
+          <div class="dropdown dropdown-mega">
+            <div class="mega-col">
+              <span class="mega-col-title">بر اساس جنسیت</span>
+              <a href="../../watch/mens/index.html">⌚ ساعت مردانه</a>
+              <a href="../../watch/ladies/index.html">⌚ ساعت زنانه</a>
+              <a href="../../watch/couple/index.html">💑 ساعت ست</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-title">بر اساس استایل</span>
+              <a href="../../watch/classic/index.html">🎩 کلاسیک</a>
+              <a href="../../watch/casual/index.html">👟 کژوال</a>
+              <a href="../../watch/sport/index.html">🏃 اسپرت</a>
+              <a href="../../watch/luxury/index.html">💎 لاکچری</a>
+              <a href="../../watch/minimal/index.html">○ مینیمال</a>
+              <a href="../../watch/smart/index.html">📱 هوشمند</a>
+            </div>
+            <div class="mega-col">
+              <span class="mega-col-title">بر اساس مکانیزم</span>
+              <a href="../../watch/analog/index.html">🕐 آنالوگ</a>
+              <a href="../../watch/digital/index.html">🔢 دیجیتال</a>
+              <a href="../../watch/automatic/index.html">⚙️ اتوماتیک</a>
+              <a href="../../watch/quartz/index.html">💎 کوارتز</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="../../accessory/index.html" class="nav-link ">اکسسوری ▾</a>
+          <div class="dropdown">
+            <a href="../../accessory/cufflinks/index.html">🎀 دکمه سردست</a>
+            <a href="../../accessory/card-holder/index.html">💼 جاکارتی</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="../../brands/index.html" class="nav-link ">برندها</a></li>
+        <li class="nav-item"><a href="../../discounts/index.html" class="nav-link ">🔥 تخفیفات</a></li>
+        <li class="nav-item"><a href="../../best-sellers/index.html" class="nav-link ">⭐ پرفروش‌ترین‌ها</a></li>
+        <li class="nav-item"><a href="../../daily-deals/index.html" class="nav-link ">⏰ پیشنهاد روز</a></li>
+        <li class="nav-item"><a href="../../magazine/index.html" class="nav-link ">📰 مجله واچ</a></li>
+        <li class="nav-item">
+          <a href="../../about/index.html" class="nav-link ">درباره ما ▾</a>
+          <div class="dropdown">
+            <a href="../../about/index.html">🎯 درباره ما</a>
+            <a href="../../rules/index.html">📋 قوانین و مقررات</a>
+            <a href="../../faq/index.html">❓ سوالات متداول</a>
+          </div>
+        </li>
+        <li class="nav-item"><a href="../../contact/index.html" class="nav-link ">📞 تماس با ما</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<!-- /HEADER-FIXED -->
+
+
+<div class="page-banner">
+  <div class="container">
+    <h1>حساب کاربری</h1>
+    <div class="breadcrumb"><a href="../index.html">صفحه اصلی</a><span>/</span><span>حساب کاربری</span></div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="profile-layout">
+    <aside class="profile-sidebar">
+      <div style="text-align:center;margin-bottom:20px">
+        <div class="profile-avatar" id="profile-avatar">👤</div>
+        <h4 id="sidebar-name">کاربر عزیز</h4>
+        <p style="font-size:13px;color:var(--text-light)" id="sidebar-phone" id="prof-display-phone">-</p>
+      </div>
+      <ul class="profile-menu">
+        <li><a href="#" class="active" data-tab="info" onclick="showProfileTab('info');return false">👤 اطلاعات شخصی</a></li>
+        <li><a href="#" data-tab="addresses" onclick="showProfileTab('addresses');return false">📍 آدرس‌های من</a></li>
+        <li><a href="#" data-tab="orders" onclick="showProfileTab('orders');return false">📦 تاریخچه سفارشات</a></li>
+        <li><a href="../wishlist/index.html">♥ علاقه‌مندی‌ها</a></li>
+        <li><a href="#" onclick="showChangePassword();return false;">🔒 تغییر رمز عبور</a></li>
+        <li><a href="../compare/index.html">⇄ لیست مقایسه</a></li>
+        <li><a href="#" data-tab="notifications" onclick="showProfileTab('notifications');return false">🔔 اطلاع‌رسانی‌ها</a></li>
+        <li><a href="#" onclick="logout();return false" style="color:var(--primary)" id="prof-logout">🚪 خروج از حساب</a></li>
+      </ul>
+    </aside>
+
+    <div id="profile-content">
+      <div id="tab-info" class="profile-tab" style="background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <h3 style="margin-bottom:20px">👤 اطلاعات شخصی</h3>
+        <form id="profile-form" onsubmit="saveProfile(event)">
+          <div class="form-row">
+            <div class="form-group"><label>نام و نام خانوادگی *</label><input type="text" id="p-name" required placeholder="نام خود را وارد کنید"></div>
+            <div class="form-group"><label>شماره تماس *</label><input type="tel" id="p-phone" required placeholder="۰۹۱۲۳۴۵۶۷۸۹" pattern="09[0-9]{9}"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>ایمیل</label><input type="email" id="prof-email" value=""></div>
+            <div class="form-group"><label>تاریخ تولد</label><input type="text" id="prof-birth" value=""></div>
+          </div>
+          <button type="submit" class="btn-primary" id="save-profile-btn">💾 ذخیره تغییرات</button>
+        </form>
+      </div>
+
+      <div id="tab-addresses" class="profile-tab" style="display:none;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <h3>📍 آدرس‌های من</h3>
+          <button class="btn-outline" onclick="openAddressModal()"> onclick="addAddress()">+ افزودن آدرس جدید</button>
+        </div>
+        <div id="addresses-container"></div>
+      </div>
+
+      <div id="tab-orders" class="profile-tab" style="display:none;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <h3 style="margin-bottom:20px">📦 تاریخچه سفارشات</h3>
+        <div style="overflow-x:auto">
+          <table class="specs-table" style="min-width:600px" id="orders-table">
+            <thead><tr style="background:var(--bg-light)"><th>شماره سفارش</th><th>تاریخ</th><th>مبلغ</th><th>وضعیت</th><th>عملیات</th></tr></thead>
+            <tbody id="orders-tbody"></tbody>
+          </table>
+        </div>
+        <div id="orders-empty" class="empty-state" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"/></svg>
+          <p>هنوز سفارشی ثبت نکرده‌اید</p>
+          <a href="../watch/index.html" class="btn-primary" style="margin-top:15px;display:inline-block">مشاهده محصولات</a>
+        </div>
+      </div>
+
+      <div id="tab-notifications" class="profile-tab" style="display:none;background:#fff;padding:30px;border-radius:16px;box-shadow:var(--shadow);margin-bottom:20px">
+        <h3 style="margin-bottom:20px">🔔 اطلاع‌رسانی‌ها</h3>
+        <div id="notifications-container"></div>
+        <div id="notifications-empty" class="empty-state" style="display:none">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+          <p>اعلان جدیدی ندارید</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="address-modal">
+  <div class="modal-box">
+    <h3 id="address-modal-title">➕ افزودن آدرس جدید</h3>
+    <form id="address-form" onsubmit="saveAddress(event)">
+      <input type="hidden" id="addr-id">
+      <div class="form-group" style="margin-bottom:15px"><label>عنوان آدرس *</label><input type="text" id="addr-title" required placeholder="مثلاً خانه، محل کار"></div>
+      <div class="form-group" style="margin-bottom:15px"><label>آدرس کامل *</label><textarea id="addr-full" required rows="3" placeholder="استان، شهر، خیابان، پلاک، واحد" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-family:inherit"></textarea></div>
+      <div class="form-row" style="margin-bottom:15px">
+        <div class="form-group"><label>کد پستی</label><input type="text" id="addr-postal" placeholder="۱۲۳۴۵۶۷۸۹۰" pattern="[0-9]{10}"></div>
+        <div class="form-group"><label>گیرنده *</label><input type="text" id="addr-recipient" required placeholder="نام و نام خانوادگی گیرنده"></div>
+      </div>
+      <div class="form-group" style="margin-bottom:15px"><label>شماره تماس گیرنده *</label><input type="tel" id="addr-phone" required placeholder="۰۹۱۲۳۴۵۶۷۸۹" pattern="09[0-9]{9}"></div>
+      <div class="modal-actions">
+        <button type="button" class="btn-secondary" onclick="closeAddressModal()">انصراف</button>
+        <button type="submit" class="btn-primary" id="addr-save-btn">💾 ذخیره</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col"><h4 id="prof-display-name">دات واچ</h4><p style="font-size:14px;line-height:1.8;margin-bottom:15px">مرجع تخصصی نقد و بررسی و خرید اینترنتی ساعت مچی، زیور و اکسسوری اصل</p><div class="social-links"><a href="#">📘</a><a href="#">📸</a><a href="#">🐦</a><a href="#">📺</a></div></div>
+      <div class="footer-col"><h4>دسته‌بندی‌ها</h4><ul><li><a href="../watch/mens/index.html">ساعت مردانه</a></li><li><a href="../watch/ladies/index.html">ساعت زنانه</a></li><li><a href="../watch/couple/index.html">ساعت ست</a></li><li><a href="../accessory/index.html">اکسسوری</a></li><li><a href="../magazine/index.html">مجله وومگ</a></li></ul></div>
+      <div class="footer-col"><h4>راهنمای خرید</h4><ul><li><a href="../rules/index.html">قوانین و مقررات</a></li><li><a href="../rules/index.html#return">شرایط بازگشت کالا</a></li><li><a href="../rules/index.html#warranty">گارانتی محصولات</a></li><li><a href="../rules/index.html#shipping">نحوه ارسال</a></li><li><a href="../faq/index.html">سوالات متداول</a></li></ul></div>
+      <div class="footer-col footer-contact"><h4>تماس با ما</h4><p>📍 تهران، خیابان جمهوری، پلاک ۱۳۳۴</p><p>📞 ۰۲۱-۹۱۰۰۸۰۹۰</p><p>✉️ info@dotwatch.ir</p><p>🕐 شنبه تا پنجشنبه: ۹ صبح تا ۹ شب</p></div>
+    </div>
+    <div class="footer-bottom"><p>تمامی حقوق محفوظ است © ۱۴۰۴ دات واچ</p></div>
+  </div>
+</footer>
+
+<script src="../js/auth.js"></script>
+<script>
+var STORAGE_KEYS = { USER: 'dotwatch_user', ADDRESSES: 'dotwatch_addresses', ORDERS: 'dotwatch_orders', NOTIFICATIONS: 'dotwatch_notifications' };
+var DEFAULT_ADDRESSES = [{ id: 'addr_1', title: '🏠 خانه', fullAddress: 'تهران، خیابان جمهوری، پلاک ۱۳۳، واحد ۴', postalCode: '۱۳۳۴۵۶۷۸۹۰', recipient: 'کاربر عزیز', phone: '۰۹۱۲۳۴۵۶۷۸۹' }];
+var DEFAULT_ORDERS = [
+  { id: '۱۰۲۶', date: '۱۴۰۵/۰۵/۲۰', amount: '۱۲,۵۰۰,۰۰۰ تومان', status: 'delivered', statusText: '✅ تحویل داده شده', items: ['ساعت مچی مردانه رولکس', 'بند چرم اصل'] },
+  { id: '۱۰۲۵', date: '۱۴۰۵/۰۵/۱۵', amount: '۸,۹۰۰,۰۰۰ تومان', status: 'delivered', statusText: '✅ تحویل داده شده', items: ['ساعت زنانه کارتیر'] },
+  { id: '۱۰۲۴', date: '۱۴۰۵/۰۵/۱۰', amount: '۴,۵۰۰,۰۰۰ تومان', status: 'shipping', statusText: '🚚 در حال ارسال', items: ['ساعت اسپرت گارمین'] }
+];
+var DEFAULT_NOTIFICATIONS = [
+  { id: 'notif_1', title: 'سفارش شما ارسال شد', body: 'سفارش #۱۰۲۶ ارسال شد و به زودی به دست شما می‌رسد.', date: '۲ ساعت پیش', read: false, type: 'order' },
+  { id: 'notif_2', title: 'تخفیف ویژه آخر هفته', body: '۲۰٪ تخفیف ویژه روی تمامی ساعت‌های هوشمند تا پایان هفته!', date: 'دیروز', read: true, type: 'promo' }
+];
+function getStorage(key, defaultVal) { try { var raw = localStorage.getItem(key); return raw ? JSON.parse(raw) : defaultVal; } catch(e) { return defaultVal; } }
+function setStorage(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
+function showToast(msg) { var t = document.getElementById('toast'); t.textContent = msg; t.classList.add('show'); setTimeout(function() { t.classList.remove('show'); }, 3000); }
+function escapeHtml(text) { if (!text) return ''; var div = document.createElement('div'); div.textContent = text; return div.innerHTML; }
+function checkAuth() { var user = getStorage(STORAGE_KEYS.USER, null); if (!user) { window.location.href = '../login/index.html'; return false; } return true; }
+function logout() { if (confirm('آیا می‌خواهید از حساب کاربری خارج شوید؟')) { localStorage.removeItem('dotwatch_user'); localStorage.removeItem('dotwatch_currentUser'); localStorage.removeItem('dotwatch_isLoggedIn'); window.location.href = '../index.html'; } }
+function renderSidebar() { var user = getStorage(STORAGE_KEYS.USER, null); if (!user) return; document.getElementById('sidebar-name').textContent = user.name || 'کاربر عزیز'; document.getElementById('sidebar-phone').textContent = user.phone || '-'; var avatar = document.getElementById('profile-avatar'); var initial = user.name ? user.name.trim()[0] : '👤'; avatar.textContent = initial; }
+function renderProfileInfo() { var user = getStorage(STORAGE_KEYS.USER, null); if (!user) return; document.getElementById('p-name').value = user.name || ''; document.getElementById('p-phone').value = user.phone || ''; document.getElementById('p-email').value = user.email || ''; document.getElementById('p-birthdate').value = user.birthdate || ''; }
+function saveProfile(e) { e.preventDefault(); var btn = document.getElementById('save-profile-btn'); btn.innerHTML = '⏳ در حال ذخیره...'; btn.disabled = true; setTimeout(function() { var user = getStorage(STORAGE_KEYS.USER, {}); user.name = document.getElementById('p-name').value.trim(); user.phone = document.getElementById('p-phone').value.trim(); user.email = document.getElementById('p-email').value.trim(); user.birthdate = document.getElementById('p-birthdate').value.trim(); setStorage(STORAGE_KEYS.USER, user); renderSidebar(); showToast('اطلاعات شخصی با موفقیت ذخیره شد ✅'); btn.innerHTML = '💾 ذخیره تغییرات'; btn.disabled = false; if (window.UserAuth) UserAuth.renderUserAccount(); }, 600); }
+function renderAddresses() { var container = document.getElementById('addresses-container'); var addresses = getStorage(STORAGE_KEYS.ADDRESSES, DEFAULT_ADDRESSES); if (addresses.length === 0) { container.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg><p>هنوز آدرسی ثبت نکرده‌اید</p><button class="btn-primary" style="margin-top:15px" onclick="openAddressModal()">+ افزودن آدرس</button></div>'; return; } container.innerHTML = addresses.map(function(addr) { return '<div class="address-card" data-id="' + addr.id + '"><div style="display:flex;justify-content:space-between;margin-bottom:10px;align-items:center"><strong>' + escapeHtml(addr.title) + '</strong><span style="font-size:12px;color:var(--text-light)">' + escapeHtml(addr.postalCode || '') + '</span></div><p style="color:var(--text-light);font-size:14px;line-height:1.7">' + escapeHtml(addr.fullAddress) + '<br>👤 گیرنده: ' + escapeHtml(addr.recipient) + ' | 📞 ' + escapeHtml(addr.phone) + '</p><div style="margin-top:10px"><button style="background:none;border:none;color:var(--primary);cursor:pointer;font-family:inherit;margin-left:15px" onclick="editAddress(\'' + addr.id + '\')">✏️ ویرایش</button><button style="background:none;border:none;color:#e31e24;cursor:pointer;font-family:inherit" onclick="deleteAddress(\'' + addr.id + '\')">🗑️ حذف</button></div></div>'; }).join(''); }
+function openAddressModal(editId) { var modal = document.getElementById('address-modal'); var form = document.getElementById('address-form'); var title = document.getElementById('address-modal-title'); form.reset(); document.getElementById('addr-id').value = editId || ''; if (editId) { var addresses = getStorage(STORAGE_KEYS.ADDRESSES, DEFAULT_ADDRESSES); var addr = addresses.find(function(a) { return a.id === editId; }); if (addr) { title.textContent = '✏️ ویرایش آدرس'; document.getElementById('addr-title').value = addr.title.replace(/^[^\s]+\s/, ''); document.getElementById('addr-full').value = addr.fullAddress; document.getElementById('addr-postal').value = addr.postalCode; document.getElementById('addr-recipient').value = addr.recipient; document.getElementById('addr-phone').value = addr.phone; } } else { title.textContent = '➕ افزودن آدرس جدید'; } modal.classList.add('active'); }
+function closeAddressModal() { document.getElementById('address-modal').classList.remove('active'); }
+function saveAddress(e) { e.preventDefault(); var id = document.getElementById('addr-id').value; var addresses = getStorage(STORAGE_KEYS.ADDRESSES, DEFAULT_ADDRESSES); var newAddr = { id: id || 'addr_' + Date.now(), title: '📍 ' + document.getElementById('addr-title').value.trim(), fullAddress: document.getElementById('addr-full').value.trim(), postalCode: document.getElementById('addr-postal').value.trim(), recipient: document.getElementById('addr-recipient').value.trim(), phone: document.getElementById('addr-phone').value.trim() }; if (id) { var idx = addresses.findIndex(function(a) { return a.id === id; }); if (idx !== -1) addresses[idx] = newAddr; } else { addresses.push(newAddr); } setStorage(STORAGE_KEYS.ADDRESSES, addresses); closeAddressModal(); renderAddresses(); showToast(id ? 'آدرس ویرایش شد ✏️' : 'آدرس جدید افزوده شد ➕'); }
+function editAddress(id) { openAddressModal(id); }
+function deleteAddress(id) { if (!confirm('آیا از حذف این آدرس اطمینان دارید؟')) return; var addresses = getStorage(STORAGE_KEYS.ADDRESSES, DEFAULT_ADDRESSES).filter(function(a) { return a.id !== id; }); setStorage(STORAGE_KEYS.ADDRESSES, addresses); renderAddresses(); showToast('آدرس حذف شد 🗑️'); }
+function renderOrders() { var orders = getStorage(STORAGE_KEYS.ORDERS, DEFAULT_ORDERS); var tbody = document.getElementById('orders-tbody'); var empty = document.getElementById('orders-empty'); var table = document.getElementById('orders-table'); if (orders.length === 0) { table.style.display = 'none'; empty.style.display = 'block'; return; } table.style.display = 'table'; empty.style.display = 'none'; tbody.innerHTML = orders.map(function(order) { var badgeClass = 'badge-info'; if (order.status === 'delivered') badgeClass = 'badge-success'; if (order.status === 'shipping') badgeClass = 'badge-warning'; return '<tr class="order-row"><td><strong>#' + escapeHtml(order.id) + '</strong></td><td>' + escapeHtml(order.date) + '</td><td>' + escapeHtml(order.amount) + '</td><td><span class="badge ' + badgeClass + '">' + escapeHtml(order.statusText) + '</span></td><td><a href="#" style="color:var(--primary)" onclick="showOrderDetail(\'' + order.id + '\');return false">مشاهده</a></td></tr>'; }).join(''); }
+function showOrderDetail(orderId) { var orders = getStorage(STORAGE_KEYS.ORDERS, DEFAULT_ORDERS); var order = orders.find(function(o) { return o.id === orderId; }); if (!order) return; alert('جزئیات سفارش #' + order.id + ':\n\n📅 تاریخ: ' + order.date + '\n💰 مبلغ: ' + order.amount + '\n📦 وضعیت: ' + order.statusText + '\n\n🛒 محصولات:\n' + (order.items ? order.items.join('\n') : '-')); }
+function renderNotifications() { var container = document.getElementById('notifications-container'); var notifications = getStorage(STORAGE_KEYS.NOTIFICATIONS, DEFAULT_NOTIFICATIONS); var empty = document.getElementById('notifications-empty'); if (notifications.length === 0) { empty.style.display = 'block'; container.innerHTML = ''; return; } empty.style.display = 'none'; container.innerHTML = notifications.map(function(n, idx) { return '<div class="notification-item ' + (n.read ? '' : 'unread') + '" style="padding:15px;background:var(--bg-light);border-radius:8px;margin-bottom:10px;cursor:pointer" onclick="markNotifRead(' + idx + ')"><div style="display:flex;justify-content:space-between;align-items:flex-start"><strong style="font-size:15px">' + escapeHtml(n.title) + '</strong><span style="font-size:11px;color:var(--text-light);white-space:nowrap">' + escapeHtml(n.date) + '</span></div><p style="font-size:13px;color:var(--text-light);margin-top:6px;line-height:1.6">' + escapeHtml(n.body) + '</p>' + (!n.read ? '<span style="display:inline-block;width:8px;height:8px;background:var(--primary);border-radius:50%;margin-top:8px"></span>' : '') + '</div>'; }).join(''); }
+function markNotifRead(idx) { var notifications = getStorage(STORAGE_KEYS.NOTIFICATIONS, DEFAULT_NOTIFICATIONS); if (notifications[idx]) { notifications[idx].read = true; setStorage(STORAGE_KEYS.NOTIFICATIONS, notifications); renderNotifications(); } }
+function showProfileTab(tab) { document.querySelectorAll('.profile-tab').forEach(function(t) { t.style.display = 'none'; }); var el = document.getElementById('tab-' + tab); if (el) el.style.display = 'block'; document.querySelectorAll('.profile-menu a[data-tab]').forEach(function(a) { a.classList.remove('active'); }); var activeLink = document.querySelector('.profile-menu a[data-tab="' + tab + '"]'); if (activeLink) activeLink.classList.add('active'); if (tab === 'info') renderProfileInfo(); if (tab === 'addresses') renderAddresses(); if (tab === 'orders') renderOrders(); if (tab === 'notifications') renderNotifications(); window.location.hash = tab; }
+function handleHash() { var hash = window.location.hash.replace('#', ''); if (hash && ['info', 'addresses', 'orders', 'notifications'].indexOf(hash) !== -1) { showProfileTab(hash); } }
+window.addEventListener('hashchange', handleHash);
+document.addEventListener('DOMContentLoaded', function() { if (!checkAuth()) return; renderSidebar(); renderProfileInfo(); handleHash(); });
+</script>
+<script>
+/* ========== MOBILE JS ========== */
+(function(){
+    // ── ۱. دکمه باز/بسته فیلتر ──
+    var ft = document.querySelector('.filter-toggle-btn');
+    if(ft){
+        ft.addEventListener('click', function(){
+            var sel = '.filters-sidebar, .filter-sidebar, .filters, .filter-panel, .sidebar-filters, .product-filters, .filter-section';
+            var s = document.querySelector(sel);
+            if(s) s.classList.toggle('active');
+        });
+    }
+
+    // ── ۲. زیرمنوها در موبایل (آکاردئونی) ──
+    document.querySelectorAll('.nav-item > .nav-link').forEach(function(l){
+        l.addEventListener('click', function(e){
+            if(window.innerWidth <= 768){
+                var d = this.parentElement.querySelector('.dropdown');
+                if(d){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    // بستن سایر زیرمنوها
+                    document.querySelectorAll('.nav-item.active').forEach(function(ai){
+                        if(ai !== l.parentElement) ai.classList.remove('active');
+                    });
+                    this.parentElement.classList.toggle('active');
+                }
+            }
+        });
+    });
+
+    // ── ۳. بستن منو با کلیک بیرون ──
+    document.addEventListener('click', function(e){
+        if(window.innerWidth <= 768){
+            var nav = document.querySelector('.nav');
+            var toggle = document.querySelector('.mobile-toggle');
+            if(nav && !nav.contains(e.target) && toggle && !toggle.contains(e.target)){
+                document.querySelector('.nav-menu').classList.remove('active');
+            }
+        }
+    });
+})();
+</script>
+<script>
+/* ========== MOBILE FIXES JS ========== */
+(function(){
+    // ── فیلتر toggle ──
+    document.querySelectorAll('.filter-toggle-btn').forEach(function(btn){
+        btn.addEventListener('click', function(){
+            var targets = document.querySelectorAll('.filters-sidebar, .filter-sidebar, .filters, .filter-panel, .sidebar-filters, .product-filters, .filter-section, aside[class*="filter"], div[class*="filter"][class*="side"]');
+            targets.forEach(function(t){ t.classList.toggle('active'); });
+        });
+    });
+
+    // ── زیرمنو آکاردئونی ──
+    document.querySelectorAll('.nav-item > .nav-link').forEach(function(l){
+        l.addEventListener('click', function(e){
+            if(window.innerWidth <= 768){
+                var d = this.parentElement.querySelector('.dropdown');
+                if(d){
+                    e.preventDefault();
+                    e.stopPropagation();
+                    document.querySelectorAll('.nav-item.active').forEach(function(ai){
+                        if(ai !== l.parentElement) ai.classList.remove('active');
+                    });
+                    this.parentElement.classList.toggle('active');
+                }
+            }
+        });
+    });
+
+    // ── بستن منو با کلیک بیرون ──
+    document.addEventListener('click', function(e){
+        if(window.innerWidth <= 768){
+            var nav = document.querySelector('.nav');
+            var toggle = document.querySelector('.mobile-toggle');
+            if(nav && !nav.contains(e.target) && toggle && !toggle.contains(e.target)){
+                var nm = document.querySelector('.nav-menu');
+                if(nm) nm.classList.remove('active');
+            }
+        }
+    });
+})();
+</script>
+<script id="mobile-js">
+(function(){
+  // ── فیلتر toggle ──
+  function toggleFilters(){
+    var sel = '.filters-sidebar, .filter-sidebar, .sidebar-filters, .product-filters, .filter-section, .filter-panel, aside.filters, aside[class*="filter"], div[class*="filter"][class*="side"], div[class*="filter"][class*="bar"]';
+    document.querySelectorAll(sel).forEach(function(el){
+      el.classList.toggle('filter-active');
+    });
+  }
+  document.querySelectorAll('.filter-toggle-btn').forEach(function(btn){
+    btn.addEventListener('click', toggleFilters);
+  });
+
+  // ── زیرمنو آکاردئونی ──
+  document.querySelectorAll('.nav-item > .nav-link').forEach(function(link){
+    link.addEventListener('click', function(e){
+      if(window.innerWidth > 768) return;
+      var dropdown = this.parentElement.querySelector('.dropdown');
+      if(!dropdown) return;
+      e.preventDefault();
+      e.stopPropagation();
+      document.querySelectorAll('.nav-item.active').forEach(function(item){
+        if(item !== link.parentElement) item.classList.remove('active');
+      });
+      link.parentElement.classList.toggle('active');
+    });
+  });
+
+  // ── بستن منو با کلیک بیرون ──
+  document.addEventListener('click', function(e){
+    if(window.innerWidth > 768) return;
+    var nav = document.querySelector('.nav');
+    var toggle = document.querySelector('.mobile-toggle');
+    var menu = document.querySelector('.nav-menu');
+    if(!menu) return;
+    if(toggle && toggle.contains(e.target)) return;
+    if(nav && nav.contains(e.target)) return;
+    menu.classList.remove('active');
+  });
+})();
+</script>
+
+<script>
+/* ================================================================
+   DOTWATCH PROFILE DYNAMIC ENGINE v2
+   ================================================================ */
+(function() {
+  'use strict';
+
+  function waitForAuth(callback) {
+    var attempts = 0;
+    var maxAttempts = 100;
+    var interval = setInterval(function() {
+      attempts++;
+      if (typeof window.UserAuth !== 'undefined' && typeof UserAuth.getUser === 'function') {
+        clearInterval(interval);
+        callback();
+      } else if (attempts >= maxAttempts) {
+        clearInterval(interval);
+        console.error('[Profile] UserAuth not loaded');
+        window.location.replace('../login/index.html');
+      }
+    }, 100);
+  }
+
+  function initProfile() {
+    var user = UserAuth.getUser();
+    if (!user) {
+      console.warn('[Profile] No user logged in');
+      window.location.replace('../login/index.html');
+      return;
+    }
+    console.log('[Profile] User:', user.name, user.phone);
+
+    fillSidebar(user);
+    fillForm(user);
+    setupSave();
+    setupLogout();
+    renderAddresses();
+    renderOrders();
+  }
+
+  function fillSidebar(user) {
+    var fullName = user.name || 'کاربر';
+    var phone = user.phone || '-';
+    var avatarText = user.avatar || (UserAuth.generateAvatar ? UserAuth.generateAvatar(fullName) : '👤');
+
+    var avatarEl = document.getElementById('prof-avatar');
+    var nameEl = document.getElementById('prof-display-name');
+    var phoneEl = document.getElementById('prof-display-phone');
+
+    if (avatarEl) avatarEl.textContent = avatarText;
+    if (nameEl) nameEl.textContent = fullName;
+    if (phoneEl) phoneEl.textContent = phone;
+  }
+
+  function fillForm(user) {
+    var fullName = user.name || '';
+    var parts = fullName.split(' ').filter(function(s){ return s.trim() !== ''; });
+    setVal('prof-name', parts[0] || '');
+    setVal('prof-family', parts.slice(1).join(' ') || '');
+    setVal('prof-phone', user.phone || '');
+    setVal('prof-email', user.email || '');
+    setVal('prof-national', user.nationalCode || '');
+    setVal('prof-birth', user.birthdate || '');
+  }
+
+  function setVal(id, val) {
+    var el = document.getElementById(id);
+    if (el) el.value = val || '';
+  }
+  function getVal(id) {
+    var el = document.getElementById(id);
+    return el ? (el.value || '').trim() : '';
+  }
+
+  function setupSave() {
+    var btn = document.getElementById('prof-save-btn');
+    if (!btn) return;
+    btn.removeAttribute('onclick');
+    btn.addEventListener('click', function(e) {
+      e.preventDefault();
+      var newName = (getVal('prof-name') + ' ' + getVal('prof-family')).trim();
+      var newPhone = getVal('prof-phone');
+      var newEmail = getVal('prof-email');
+      var newBirth = getVal('prof-birth');
+
+      if (!newName) { alert('لطفاً نام را وارد کنید'); return; }
+      if (!newPhone || newPhone.replace(/\D/g, '').length !== 11) { alert('شماره موبایل نامعتبر است'); return; }
+
+      if (UserAuth.updateProfile) {
+        UserAuth.updateProfile({ name: newName, phone: newPhone, email: newEmail, birthdate: newBirth });
+      }
+      alert('اطلاعات با موفقیت ذخیره شد ✅');
+      fillSidebar({ name: newName, phone: newPhone, email: newEmail, birthdate: newBirth });
+    });
+  }
+
+  function setupLogout() {
+    var link = document.getElementById('prof-logout');
+    if (!link) return;
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      if (confirm('آیا مطمئن هستید که می‌خواهید خارج شوید؟')) {
+        if (UserAuth.logout) UserAuth.logout();
+      }
+    });
+  }
+
+  /* ---------- Addresses ---------- */
+  function getAddresses() {
+    try { return JSON.parse(localStorage.getItem('dotwatch_addresses') || '[]'); }
+    catch(e) { return []; }
+  }
+  function saveAddresses(list) {
+    localStorage.setItem('dotwatch_addresses', JSON.stringify(list));
+    renderAddresses();
+  }
+
+  window.renderAddresses = function() {
+    var c = document.getElementById('addr-list');
+    if (!c) return;
+    var list = getAddresses();
+    if (list.length === 0) {
+      c.innerHTML = '<p style="color:#888;text-align:center;padding:20px;">هنوز آدرسی ثبت نشده است</p>';
+      return;
+    }
+    c.innerHTML = list.map(function(a, idx) {
+      return '<div style="border:1px solid #e0e0e0;border-radius:12px;padding:16px;margin-bottom:12px;background:#fff;">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;"><strong style="color:#333;">' + esc(a.title || 'آدرس') + '</strong><span style="font-size:12px;color:#888;">' + esc(a.postal || '') + '</span></div>' +
+        '<p style="color:#555;font-size:14px;line-height:1.6;margin:0;">' + esc(a.text || '') + '</p>' +
+        '<div style="margin-top:12px;"><button onclick="window.editAddress(' + idx + ')" style="background:none;border:none;color:var(--primary);cursor:pointer;font-family:inherit;margin-left:16px;font-size:13px;">✏ ویرایش</button><button onclick="window.deleteAddress(' + idx + ')" style="background:none;border:none;color:#e74c3c;cursor:pointer;font-family:inherit;font-size:13px;">✖ حذف</button></div>' +
+      '</div>';
+    }).join('');
+  };
+
+  window.deleteAddress = function(idx) {
+    if (!confirm('آیا از حذف این آدرس مطمئن هستید؟')) return;
+    var list = getAddresses();
+    list.splice(idx, 1);
+    saveAddresses(list);
+  };
+
+  window.editAddress = function(idx) {
+    var list = getAddresses();
+    var a = list[idx] || {title:'', text:'', postal:''};
+    var nt = prompt('عنوان آدرس:', a.title); if (nt === null) return;
+    var nx = prompt('متن آدرس:', a.text); if (nx === null) return;
+    var np = prompt('کد پستی:', a.postal); if (np === null) return;
+    list[idx] = {title: nt, text: nx, postal: np};
+    saveAddresses(list);
+  };
+
+  window.addAddress = function() {
+    var title = prompt('عنوان آدرس (مثلاً خانه):'); if (!title) return;
+    var text = prompt('آدرس کامل:'); if (!text) return;
+    var postal = prompt('کد پستی (اختیاری):');
+    var list = getAddresses();
+    list.push({title: title, text: text, postal: postal || ''});
+    saveAddresses(list);
+  };
+
+  /* ---------- Orders ---------- */
+  window.renderOrders = function() {
+    var tbody = document.getElementById('orders-tbody');
+    if (!tbody) return;
+    var orders = JSON.parse(localStorage.getItem('dotwatch_orders') || '[]');
+    if (orders.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#888;padding:20px;">سفارشی ثبت نشده است</td></tr>';
+      return;
+    }
+    tbody.innerHTML = orders.map(function(o){
+      return '<tr><td>#' + esc(String(o.id)) + '</td><td>' + esc(o.date) + '</td><td>' + esc(o.items) + '</td><td style="color:var(--success)">' + esc(o.status) + '</td><td><a href="#" style="color:var(--primary)">جزئیات</a></td></tr>';
+    }).join('');
+  };
+
+  /* ---------- Change Password ---------- */
+  window.showChangePassword = function() {
+    var oldP = prompt('رمز عبور فعلی را وارد کنید:'); if (oldP === null) return;
+    var newP = prompt('رمز عبور جدید (حداقل ۶ کاراکتر):'); if (!newP || newP.length < 6) { alert('رمز عبور باید حداقل ۶ کاراکتر باشد'); return; }
+    var newP2 = prompt('تکرار رمز عبور جدید:'); if (newP !== newP2) { alert('تکرار رمز عبور مطابقت ندارد'); return; }
+    var res = UserAuth.changePassword(oldP, newP); alert(res.message);
+  };
+
+  function esc(text) {
+    if (!text) return '';
+    var d = document.createElement('div');
+    d.textContent = String(text);
+    return d.innerHTML;
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ waitForAuth(initProfile); });
+  } else {
+    waitForAuth(initProfile);
+  }
+})();
+</script>
+
+</body>
+</html>
