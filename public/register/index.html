@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ثبت نام | دات واچ</title>
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .auth-section { padding: 60px 20px; background: linear-gradient(135deg, #f9f6f1 0%, #fff 100%); min-height: 70vh; display: flex; align-items: center; justify-content: center; }
+    .auth-box { width: 100%; max-width: 460px; background: #fff; border-radius: 24px; padding: 40px 36px; box-shadow: 0 20px 60px rgba(0,0,0,0.06); border: 1px solid #f0ebe3; }
+    .auth-title { text-align: center; font-size: 22px; font-weight: 700; margin-bottom: 8px; color: #2c2c2c; }
+    .auth-subtitle { text-align: center; color: #888; font-size: 14px; margin-bottom: 32px; }
+    .form-group { margin-bottom: 22px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; margin-bottom: 8px; color: #555; }
+    .form-group label .req { color: #e74c3c; margin-right: 4px; }
+    .form-group label .opt { color: #999; font-size: 11px; font-weight: 400; }
+    .form-group input, .form-group select {
+      width: 100%; padding: 14px 16px; border: 1px solid #e5e0d8; border-radius: 12px;
+      font-size: 14px; font-family: inherit; transition: all 0.3s; background: #fdfcfa;
+    }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: #c9a96e; background: #fff; box-shadow: 0 0 0 3px rgba(201,169,110,0.1); }
+    .form-group input.error, .form-group select.error { border-color: #e74c3c; }
+    .bd-row { display: grid; grid-template-columns: 1fr 1.2fr 1fr; gap: 10px; }
+    .err { color: #e74c3c; font-size: 12px; margin-top: 6px; display: none; }
+    .err.show { display: block; }
+    .btn-submit {
+      width: 100%; padding: 15px; border: none; border-radius: 12px;
+      background: linear-gradient(135deg, #c9a96e, #a08050); color: #fff;
+      font-size: 15px; font-weight: 700; font-family: inherit; cursor: pointer;
+      transition: all 0.3s; margin-top: 6px;
+    }
+    .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 10px 24px rgba(201,169,110,0.35); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none !important; }
+    .auth-foot { text-align: center; margin-top: 28px; padding-top: 24px; border-top: 1px solid #f0ebe3; font-size: 14px; color: #777; }
+    .auth-foot a { color: #c9a96e; text-decoration: none; font-weight: 600; }
+    .auth-foot a:hover { text-decoration: underline; }
+    .success-msg { color: #28a745; font-size: 14px; text-align: center; margin-bottom: 16px; display: none; }
+    .success-msg.show { display: block; }
+  </style>
+  <style id="mobile-fix">
+  @media (max-width: 768px) {
+    .header .header-main .search-box, .header-main .search-box, header .search-box, .search-box { display: none !important; }
+    .nav-menu .mobile-search { display: block !important; padding: 12px 16px; border-bottom: 2px solid #f0f0f0; }
+    .nav-menu .mobile-search input { width: 100%; padding: 10px 14px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 14px; }
+    .filter-toggle-btn { display: flex !important; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 12px 20px; background: #e31e24; color: #fff; border: none; border-radius: 8px; margin: 10px 0 15px; cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 600; }
+    .filters-sidebar, .filter-sidebar, .sidebar-filters, .product-filters, .filter-section, .filter-panel, aside.filters, aside[class*="filter"], div[class*="filter"][class*="side"], div[class*="filter"][class*="bar"] { display: none !important; }
+    .filters-sidebar.filter-active, .filter-sidebar.filter-active, .sidebar-filters.filter-active, .product-filters.filter-active, .filter-section.filter-active, .filter-panel.filter-active, aside.filters.filter-active, aside[class*="filter"].filter-active, div[class*="filter"][class*="side"].filter-active, div[class*="filter"][class*="bar"].filter-active { display: block !important; }
+    .nav .nav-menu, nav .nav-menu, .nav-menu { display: none !important; position: absolute; top: 100%; right: 0; left: 0; background: #fff; flex-direction: column; padding: 0; box-shadow: 0 8px 24px rgba(0,0,0,0.12); z-index: 9999; max-height: 80vh; overflow-y: auto; }
+    .nav .nav-menu.active, nav .nav-menu.active, .nav-menu.active { display: flex !important; }
+    .nav-item { width: 100%; border-bottom: 1px solid #f0f0f0; }
+    .nav-item > .nav-link { padding: 14px 16px; display: flex; justify-content: space-between; align-items: center; }
+    .nav-item > .nav-link::after { content: "▼"; font-size: 10px; transition: transform .2s; }
+    .nav-item.active > .nav-link::after { transform: rotate(180deg); }
+    .nav-item > .nav-link:only-child::after { content: none; }
+    .nav-item .dropdown, .nav-item > .dropdown { display: none !important; position: static !important; box-shadow: none !important; min-width: auto !important; padding: 0 16px 10px 0 !important; border: none !important; background: #fafafa !important; grid-template-columns: 1fr !important; }
+    .nav-item.active .dropdown, .nav-item.active > .dropdown { display: block !important; }
+    .dropdown a { padding: 10px 14px !important; border-bottom: 1px solid #eee; }
+    .dropdown a:last-child { border-bottom: none; }
+    .dropdown hr { display: none !important; }
+  }
+  @media (min-width: 769px) { .filter-toggle-btn, .mobile-search { display: none !important; } }
+  </style>
+<base target="_blank">
+</head>
+<body>
+
+<div class="top-bar"><div class="container">🎁 ارسال رایگان برای خرید بالای ۷۵ میلیون تومان | <a href="../discounts/index.html">مشاهده تخفیف‌ها</a></div></div>
+
+<header class="header">
+  <div class="container">
+    <div class="header-main">
+      <a href="../index.html" class="logo"><div class="logo-icon">◷</div><span>دات واچ</span></a>
+      <div class="search-box">
+        <input type="text" id="search-input" placeholder="جستجوی ساعت، برند، مدل...">
+        <button onclick="const v=document.getElementById('search-input').value;if(v)window.location.href='../watch/index.html?q='+encodeURIComponent(v)">🔍</button>
+      </div>
+      <div class="header-actions">
+        <div id="user-account-container"></div>
+        <a href="../cart/index.html" class="action-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span>سبد خرید</span></a>
+        <a href="../compare/index.html" class="action-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 3h3v3h-3zM8 3h3v3H8zM5 8h14v12a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V8zM12 12v4"/></svg><span>مقایسه</span></a>
+        <a href="../wishlist/index.html" class="action-btn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg><span>علاقه‌مندی‌ها</span></a>
+      </div>
+      <button class="mobile-toggle" onclick="document.querySelector('.nav-menu').classList.toggle('active')">☰</button>
+    </div>
+  </div>
+  <nav class="nav">
+    <div class="container">
+      <ul class="nav-menu">
+        <li class="mobile-search"><input type="text" placeholder="جستجوی ساعت، برند، مدل..." onkeydown="if(event.key==='Enter'){var v=this.value;if(v)window.location.href='../watch/index.html?q='+encodeURIComponent(v)}"></li>
+        <li class="nav-item"><a href="../index.html" class="nav-link">صفحه اصلی</a></li>
+        <li class="nav-item"><a href="../watch/index.html" class="nav-link">ساعت مچی ▾</a><div class="dropdown dropdown-mega"><div class="mega-col"><span class="mega-col-title">بر اساس جنسیت</span><a href="../watch/mens/index.html">⌚ ساعت مردانه</a><a href="../watch/ladies/index.html">⌚ ساعت زنانه</a><a href="../watch/couple/index.html">💑 ساعت ست</a></div><div class="mega-col"><span class="mega-col-title">بر اساس استایل</span><a href="../watch/classic/index.html">🎩 کلاسیک</a><a href="../watch/casual/index.html">👟 کژوال</a><a href="../watch/sport/index.html">🏃 اسپرت</a><a href="../watch/luxury/index.html">💎 لاکچری</a><a href="../watch/minimal/index.html">○ مینیمال</a><a href="../watch/smart/index.html">📱 هوشمند</a></div><div class="mega-col"><span class="mega-col-title">بر اساس مکانیزم</span><a href="../watch/analog/index.html">🕐 آنالوگ</a><a href="../watch/digital/index.html">🔢 دیجیتال</a><a href="../watch/automatic/index.html">⚙️ اتوماتیک</a><a href="../watch/quartz/index.html">💎 کوارتز</a></div></div></li>
+        <li class="nav-item"><a href="../accessory/index.html" class="nav-link">اکسسوری ▾</a><div class="dropdown"><a href="../accessory/cufflinks/index.html">🎀 دکمه سردست</a><a href="../accessory/card-holder/index.html">💼 جاکارتی</a></div></li>
+        <li class="nav-item"><a href="../brands/index.html" class="nav-link">برندها</a></li>
+        <li class="nav-item"><a href="../discounts/index.html" class="nav-link">🔥 تخفیفات</a></li>
+        <li class="nav-item"><a href="../best-sellers/index.html" class="nav-link">⭐ پرفروش‌ترین‌ها</a></li>
+        <li class="nav-item"><a href="../daily-deals/index.html" class="nav-link">⏰ پیشنهاد روز</a></li>
+        <li class="nav-item"><a href="../magazine/index.html" class="nav-link">📰 مجله واچ</a></li>
+        <li class="nav-item"><a href="../about/index.html" class="nav-link">درباره ما ▾</a><div class="dropdown"><a href="../about/index.html">🎯 درباره ما</a><a href="../rules/index.html">📋 قوانین و مقررات</a><a href="../faq/index.html">❓ سوالات متداول</a></div></li>
+        <li class="nav-item"><a href="../contact/index.html" class="nav-link">📞 تماس با ما</a></li>
+      </ul>
+    </div>
+  </nav>
+</header>
+
+<main class="auth-section">
+  <div class="auth-box">
+    <h1 class="auth-title">ثبت نام</h1>
+    <p class="auth-subtitle">حساب کاربری جدید بسازید</p>
+    <div class="success-msg" id="reg-success">ثبت نام با موفقیت انجام شد! در حال انتقال...</div>
+
+    <form id="register-form" novalidate>
+      <div class="form-group">
+        <label>نام و نام خانوادگی <span class="req">*</span></label>
+        <input type="text" id="reg-name" placeholder="مثال: علی احمدی" required>
+        <div class="err" id="err-name">لطفاً نام خود را وارد کنید</div>
+      </div>
+      <div class="form-group">
+        <label>ایمیل <span class="opt">(اختیاری)</span></label>
+        <input type="email" id="reg-email" placeholder="example@email.com">
+      </div>
+      <div class="form-group">
+        <label>شماره موبایل <span class="req">*</span></label>
+        <input type="tel" id="reg-phone" placeholder="0912xxxxxxx" required>
+        <div class="err" id="err-phone">لطفاً شماره موبایل معتبر وارد کنید</div>
+      </div>
+      <div class="form-group">
+        <label>تاریخ تولد <span class="req">*</span></label>
+        <div class="bd-row">
+          <select id="reg-day" required><option value="" disabled selected>روز</option></select>
+          <select id="reg-month" required>
+            <option value="" disabled selected>ماه</option>
+            <option value="01">فروردین</option><option value="02">اردیبهشت</option><option value="03">خرداد</option>
+            <option value="04">تیر</option><option value="05">مرداد</option><option value="06">شهریور</option>
+            <option value="07">مهر</option><option value="08">آبان</option><option value="09">آذر</option>
+            <option value="10">دی</option><option value="11">بهمن</option><option value="12">اسفند</option>
+          </select>
+          <select id="reg-year" required><option value="" disabled selected>سال</option></select>
+        </div>
+        <div class="err" id="err-birthdate">لطفاً تاریخ تولد کامل وارد کنید</div>
+      </div>
+      <div class="form-group">
+        <label>رمز عبور <span class="req">*</span></label>
+        <input type="password" id="reg-password" placeholder="حداقل ۶ کاراکتر" required minlength="6">
+        <div class="err" id="err-password">رمز عبور باید حداقل ۶ کاراکتر باشد</div>
+      </div>
+      <div class="form-group">
+        <label>تکرار رمز عبور <span class="req">*</span></label>
+        <input type="password" id="reg-password2" placeholder="رمز عبور را تکرار کنید" required>
+        <div class="err" id="err-password2">رمز عبور و تکرار آن یکسان نیستند</div>
+      </div>
+      <button type="submit" class="btn-submit" id="btn-reg">ثبت نام</button>
+    </form>
+
+    <div class="auth-foot">
+      قبلاً ثبت نام کردید؟ <a href="./login.html">ورود به حساب</a>
+    </div>
+  </div>
+</main>
+
+<footer class="footer" style="background:#1a1a1a;color:#fff;padding:50px 0 20px;margin-top:0">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;margin-bottom:40px">
+      <div><h4 style="color:#c9a96e;margin-bottom:20px;font-size:18px">دات واچ</h4><p style="color:#aaa;font-size:14px;line-height:1.8">فروشگاه تخصصی ساعت‌های مچی و اکسسوری با بهترین برندهای جهانی</p></div>
+      <div><h4 style="color:#c9a96e;margin-bottom:20px;font-size:16px">دسترسی سریع</h4><ul style="list-style:none;padding:0"><li style="margin-bottom:10px"><a href="../watch/index.html" style="color:#aaa;text-decoration:none;font-size:14px">ساعت مچی</a></li><li style="margin-bottom:10px"><a href="../brands/index.html" style="color:#aaa;text-decoration:none;font-size:14px">برندها</a></li><li style="margin-bottom:10px"><a href="../discounts/index.html" style="color:#aaa;text-decoration:none;font-size:14px">تخفیفات</a></li></ul></div>
+      <div><h4 style="color:#c9a96e;margin-bottom:20px;font-size:16px">پشتیبانی</h4><ul style="list-style:none;padding:0"><li style="margin-bottom:10px"><a href="../faq/index.html" style="color:#aaa;text-decoration:none;font-size:14px">سوالات متداول</a></li><li style="margin-bottom:10px"><a href="../rules/index.html" style="color:#aaa;text-decoration:none;font-size:14px">قوانین</a></li><li style="margin-bottom:10px"><a href="../contact/index.html" style="color:#aaa;text-decoration:none;font-size:14px">تماس با ما</a></li></ul></div>
+    </div>
+    <div style="border-top:1px solid #333;padding-top:20px;text-align:center;color:#777;font-size:13px">© ۲۰۲۵ دات واچ. تمامی حقوق محفوظ است.</div>
+  </div>
+</footer>
+
+<script src="../js/auth.js"></script>
+<script>
+  var dSel = document.getElementById('reg-day');
+  for (var i = 1; i <= 31; i++) {
+    var o = document.createElement('option');
+    o.value = String(i).padStart(2, '0');
+    o.textContent = i;
+    dSel.appendChild(o);
+  }
+  var ySel = document.getElementById('reg-year');
+  var cy = new Date().getFullYear();
+  for (var i = cy - 18; i >= cy - 80; i--) {
+    var o = document.createElement('option');
+    o.value = i;
+    o.textContent = i;
+    ySel.appendChild(o);
+  }
+
+  function validatePhone(phone) {
+    var p = phone.replace(/\D/g, '');
+    return p.length === 11 && p.charAt(0) === '0';
+  }
+
+  document.getElementById('register-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var ok = true;
+    var name = document.getElementById('reg-name').value.trim();
+    var email = document.getElementById('reg-email').value.trim();
+    var phone = document.getElementById('reg-phone').value.trim();
+    var day = document.getElementById('reg-day').value;
+    var month = document.getElementById('reg-month').value;
+    var year = document.getElementById('reg-year').value;
+    var pass = document.getElementById('reg-password').value;
+    var pass2 = document.getElementById('reg-password2').value;
+
+    document.querySelectorAll('.err').forEach(function(el) { el.classList.remove('show'); });
+    document.querySelectorAll('input, select').forEach(function(el) { el.classList.remove('error'); });
+
+    if (!name) {
+      document.getElementById('err-name').classList.add('show');
+      document.getElementById('reg-name').classList.add('error');
+      ok = false;
+    }
+    if (!validatePhone(phone)) {
+      document.getElementById('err-phone').classList.add('show');
+      document.getElementById('reg-phone').classList.add('error');
+      ok = false;
+    }
+    if (!day || !month || !year) {
+      document.getElementById('err-birthdate').classList.add('show');
+      document.querySelectorAll('.bd-row select').forEach(function(el) { el.classList.add('error'); });
+      ok = false;
+    }
+    if (!pass || pass.length < 6) {
+      document.getElementById('err-password').classList.add('show');
+      document.getElementById('reg-password').classList.add('error');
+      ok = false;
+    }
+    if (pass !== pass2) {
+      document.getElementById('err-password2').classList.add('show');
+      document.getElementById('reg-password2').classList.add('error');
+      ok = false;
+    }
+    if (!ok) return;
+
+    var btn = document.getElementById('btn-reg');
+    btn.disabled = true;
+    btn.textContent = 'در حال ثبت نام...';
+
+    // Check if user already exists
+    var existing = UserAuth.getUser();
+    if (existing && existing.phone === phone) {
+      document.getElementById('err-phone').textContent = 'این شماره موبایل قبلاً ثبت شده است.';
+      document.getElementById('err-phone').classList.add('show');
+      btn.disabled = false;
+      btn.textContent = 'ثبت نام';
+      return;
+    }
+
+    UserAuth.register({
+      name: name,
+      email: email,
+      phone: phone,
+      birthdate: year + '-' + month + '-' + day,
+      password: pass
+    });
+
+    document.getElementById('reg-success').classList.add('show');
+    setTimeout(function() { window.location.href = '../index.html'; }, 1500);
+  });
+</script>
+</body>
+</html>
